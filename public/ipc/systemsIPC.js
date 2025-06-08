@@ -54,3 +54,16 @@ ipcMain.on('get-blockers', (event) => {
 ipcMain.handle('clear-blockers', () => {
   blockerSystem.clear()
 })
+
+ipcMain.handle('cancel-break', () => {
+  breakSystem.end()
+})
+
+ipcMain.handle('delay-break', (event, minutes) => {
+  timerSystem.setDurationOverride(minutes * 60 * 1000)
+  breakSystem.end()
+})
+
+ipcMain.handle('trigger-break', () => {
+  timerSystem.end()
+})

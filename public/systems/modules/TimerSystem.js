@@ -65,6 +65,7 @@ module.exports = class TimerSystem extends EventEmitter {
     this.isStopped = true
     this.isBlocked = false
     this.isIdle = false
+    this.durationOverride = null
 
     // The Date Object indicating when the timer will end
     this.endDate = new Date()
@@ -192,7 +193,12 @@ module.exports = class TimerSystem extends EventEmitter {
    * Resets the timer
    */
   reset () {
-    this.totalDuration = store.get('preferences.notifications.interval') * 60000
+    if (this.durationOverride !== null) {
+      this.totalDuration = this.durationOverride
+      this.durationOverride = null // one-time use
+    } else {
+      this.totalDuration = store.get('preferences.notifications.interval') * 60000
+    }
     this.setup()
   }
 
@@ -260,6 +266,10 @@ module.exports = class TimerSystem extends EventEmitter {
     this.isBlocked = false
 
     this.update()
+  }
+
+  setDurationOverride (milliseconds) {
+    this.durationOverride = milliseconds
   }
 
   /**

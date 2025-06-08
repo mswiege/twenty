@@ -57,7 +57,7 @@ const TYPE_OPTIONS = {
 const POPUP_OPTIONS = {
   size: {
     width: 360,
-    height: 90
+    height: 150
   },
   gapFromEdge: 12
 }
