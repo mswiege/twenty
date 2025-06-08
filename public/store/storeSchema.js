@@ -8,6 +8,7 @@
       * enableSound (boolean)
       * interval (number)
       * sound (string)
+      * snoozeSeconds (number)
     - blockers
       * apps (array of strings)
       * blockOnBattery (boolean)
@@ -27,7 +28,8 @@ const preferencesSchema = {
       enableSound: true,
       interval: 20,
       sound: 'Long Expected.mp3',
-      soundVolume: 100
+      soundVolume: 100,
+      snoozeSeconds: 120
     },
     blockers: {
       apps: [],
@@ -63,6 +65,11 @@ const preferencesSchema = {
           type: 'number',
           minimum: 0,
           maximum: 100
+        },
+        snoozeSeconds: {
+          type: 'number',
+          minimum: 10,
+          maximum: 300
         }
       },
       additionalProperties: false

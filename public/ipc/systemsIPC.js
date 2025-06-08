@@ -59,8 +59,8 @@ ipcMain.handle('cancel-break', () => {
   breakSystem.end()
 })
 
-ipcMain.handle('delay-break', (event, minutes) => {
-  timerSystem.setDurationOverride(minutes * 60 * 1000)
+ipcMain.handle('delay-break', (event, seconds) => {
+  timerSystem.setDurationOverride(seconds * 1000)
   breakSystem.end()
 })
 

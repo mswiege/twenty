@@ -55,7 +55,8 @@ export default class extends React.Component {
   }
 
   handleDelay () {
-    window.delayBreak(1)
+    const snoozeSeconds = window.store.preferences.getAll().notifications.snoozeSeconds || 120
+    window.delayBreak(snoozeSeconds)
   }
 
   render () {
@@ -80,7 +81,7 @@ export default class extends React.Component {
               </Text>
               <Stack horizontal tokens={{ childrenGap: 8 }} style={{ marginTop: 16 }}>
                 <PrimaryButton onClick={this.handleCancel}>Cancel</PrimaryButton>
-                <DefaultButton onClick={this.handleDelay}>Snooze (2 minutes)</DefaultButton>
+                <DefaultButton onClick={this.handleDelay}>Snooze for {window.store.preferences.getAll().notifications.snoozeSeconds || 120} seconds</DefaultButton>
               </Stack>
             </Stack>
           </Stack.Item>
