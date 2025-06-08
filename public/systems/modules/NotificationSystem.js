@@ -57,7 +57,7 @@ class NotificationSystem {
       if (windowStillExists(window)) window.hide()
     })
     popupOverlays.get().forEach(window => {
-      if (windowStillExists(window)) window.show()
+      if (windowStillExists(window)) window.showInactive()
     })
   }
 
