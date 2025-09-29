@@ -16,6 +16,7 @@
       * startAppOnLogin (boolean)
       * startTimerOnAppStartup (boolean)
       * hideOnAppStartup (boolean)
+      * autoRestartTimer (boolean)
     - appearance
       * theme (string)
       * alwaysOnTop (boolean)
@@ -38,7 +39,8 @@ const preferencesSchema = {
     startup: {
       startAppOnLogin: true,
       startTimerOnAppStartup: true,
-      hideOnAppStartup: false
+      hideOnAppStartup: false,
+      autoRestartTimer: true
     },
     appearance: {
       theme: 'system',
@@ -92,7 +94,8 @@ const preferencesSchema = {
       properties: {
         startAppOnLogin: { type: 'boolean' },
         startTimerOnAppStartup: { type: 'boolean' },
-        hideOnAppStartup: { type: 'boolean' }
+        hideOnAppStartup: { type: 'boolean' },
+        autoRestartTimer: { type: 'boolean' }
       },
       additionalProperties: false
     },

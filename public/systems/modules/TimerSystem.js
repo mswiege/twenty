@@ -209,6 +209,9 @@ module.exports = class TimerSystem extends EventEmitter {
     if (this.isBlocked) return
     if (this.getState() === states.RUNNING) return
 
+    // Cancel any scheduled auto-restart since we're starting manually
+    this.cancelAutoRestart()
+
     // Set flags
     this.isIdle = false
     this.isStopped = false
@@ -240,6 +243,11 @@ module.exports = class TimerSystem extends EventEmitter {
     // Set flags
     this.isIdle = false
     this.isStopped = true
+
+    if (store.get('preferences.startup.autoRestartTimer')) {
+      // Schedule auto-restart for 6 AM next day
+      this.scheduleAutoRestart()
+    }
 
     this.update()
   }
@@ -279,4 +287,41 @@ module.exports = class TimerSystem extends EventEmitter {
   togglePause () {
     if (this.isStopped) { this.start() } else { this.stop() }
   }
-}
+
+  /**
+   * Schedules the timer to automatically restart at 6 AM next day
+   */
+  scheduleAutoRestart() {
+    // Clear any existing auto-restart timeout
+    if (this.autoRestartTimeout) {
+      clearTimeout(this.autoRestartTimeout)
+    }
+
+    // Calculate time until 6 AM next day
+    const now = new Date()
+    const tomorrow = new Date(now)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    tomorrow.setHours(6, 0, 0, 0) // Set to 6:00:00.000 AM
+
+    const timeUntil6AM = tomorrow.getTime() - now.getTime()
+
+    // Schedule the restart
+    this.autoRestartTimeout = setTimeout(() => {
+      // Only restart if the timer is still stopped and not blocked
+      if (this.isStopped && !this.isBlocked) {
+        this.start()
+      }
+      this.autoRestartTimeout = null
+    }, timeUntil6AM)
+  }
+
+  /**
+   * Cancels the scheduled auto-restart
+   */
+  cancelAutoRestart() {
+    if (this.autoRestartTimeout) {
+      clearTimeout(this.autoRestartTimeout)
+      this.autoRestartTimeout = null
+    }
+  }
+};
